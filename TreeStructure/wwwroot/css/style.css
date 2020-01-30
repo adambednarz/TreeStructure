@@ -1,0 +1,46 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-weight: 500;
+}
+
+i.fas:hover {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -o-transform: scale(1.1);
+}
+
+i.fas {
+    -webkit-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+}
+a.li-style {
+    display: inline-block;
+}
+button i.fas {
+    padding-right: 10px;
+}
+.btn-group{
+    margin: 0px 10px 0px 10px;
+    float:right;
+}
+.toast-header {
+    padding: 1.25rem 0.75rem;
+}
+.card{
+    border: 0px solid black;
+}
+/*div.card .card-body {
+    padding: 0.25rem 0rem 0.25rem 0.5rem;
+}*/
+.list-group-item {
+    padding: 0.25rem 0rem 0.25rem 0.5rem;
+}
+.card-body {
+    padding: 0.25rem 0rem 0.25rem 0.5rem;
+}

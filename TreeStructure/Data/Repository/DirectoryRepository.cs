@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,30 +17,37 @@ namespace TreeStructure.Data.Repository
         }
 
 
-        public void Add(Directory dir)
-            => _dbContext.Directores.Add(dir);
-
-
-        public List<Directory> GetAll()
-            =>  _dbContext.Directores.ToList();
-
-
-        public Directory Get(int id)
-            => _dbContext.Directores.FirstOrDefault(x => x.Id == id);
-
-
-        public void Remove(Directory dir)
-            => _dbContext.Directores.Remove(dir);
-
-        public void Update(Directory dir)
-            => _dbContext.Directores.Update(dir);
-
-        public async Task<bool> SaveChangesAsync()
+        public async Task AddAsync(Directory dir)
         {
-            if (await _dbContext.SaveChangesAsync() > 0)
-                return true;
-
-            return false;
+            await _dbContext.Directores.AddAsync(dir);
+            await _dbContext.SaveChangesAsync();
         }
+
+        public Task<IEnumerable<Directory>> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Directory>> GetAllAsync()
+            => await _dbContext.Directores.ToListAsync();
+
+        public async Task<Directory> GetAsync(int id)
+            => await _dbContext.Directores.FirstOrDefaultAsync(x => x.Id == id);
+
+        public async Task<IEnumerable<Directory>> GetAllForParentIdAsync(int? parentId)
+            => await _dbContext.Directores.Where(x => x.ParentId == parentId).ToAsyncEnumerable().ToList();
+
+        public async Task RemoveAsync(Directory dir)
+        {
+            _dbContext.Directores.Remove(dir);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Directory dir)
+        {
+            _dbContext.Directores.Update(dir);
+            await _dbContext.SaveChangesAsync();
+        }
+
     }
 }

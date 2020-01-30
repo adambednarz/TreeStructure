@@ -1,0 +1,12 @@
+﻿@model DirectoryViewModel
+
+
+<div>
+    <form asp-controller="Home" asp-action="Create" method="post">
+        <div>
+            <label>Wprowadź nazwę </label>
+            <input asp-for="Name" />
+        </div>
+        <input type="submit" value="Submit" />
+    </form>
+</div>

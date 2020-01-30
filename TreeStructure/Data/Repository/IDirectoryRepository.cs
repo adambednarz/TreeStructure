@@ -8,12 +8,12 @@ namespace TreeStructure.Data.Repository
 {
     public interface IDirectoryRepository
     {
-        Directory Get(int id);
-        List<Directory> GetAll();
-        void Add(Directory dir);
-        void Remove(Directory dir);
-        void Update(Directory dir);
+        Task<Directory> GetAsync(int id);
+        Task<IEnumerable<Directory>> GetAllForParentIdAsync(int? parentId);
+        Task<IEnumerable<Directory>> GetAllAsync();
+        Task AddAsync(Directory dir);
+        Task RemoveAsync(Directory dir);
+        Task UpdateAsync(Directory dir);
 
-        Task<bool> SaveChangesAsync();
     }
 }
