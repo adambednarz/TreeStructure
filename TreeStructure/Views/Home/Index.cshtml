@@ -2,67 +2,16 @@
 
 <div class="container">
     <h2 class="toast-header">Home panel</h2>
-    @if (User.Identity.IsAuthenticated)
+    @if (!User.Identity.IsAuthenticated)
     {
-        <p>Przedź dopanelu admina aby móc edytować drzewo</p>
-    }
-    else
-    {
-        <p>Zaloguj się do panelu admina aby móc edytować drzewo</p>
-    }
-    <div>
-        <div class="list-group">
-            @foreach (var item in Model)
-            {
-                if (item.ParentId == null)
-                {
-                    <div class="list-group-item">
-                        <button class="btn " type="button" data-toggle="collapse" data-target="#DIR_@item.Id">
-                            <i class="fas fa-angle-down"></i>@item.Name
-                        </button>
-
-                    </div>
-
-                    <div class="collapse" id="DIR_@item.Id">
-                        <div class="card card-body">
-                            @foreach (var itemchild in Model)
-                            {
-                                if (itemchild.ParentId == item.Id)
-                                {
-                                    <div class="list-group-item">
-                                        <button class="btn " type="button" data-toggle="collapse" data-target="#DIR_@itemchild.Id">
-                                            <i class="fas fa-angle-down"></i>@itemchild.Name
-                                        </button>
-                                    </div>
-
-                                    <div class="collapse" id="DIR_@itemchild.Id">
-                                        <div class="card card-body">
-                                            @foreach (var itemchild2 in Model)
-                                            {
-                                                if (itemchild2.ParentId == itemchild.Id)
-                                                {
-                                                    <div class="list-group-item">
-                                                        <button class="btn " type="button" data-toggle="collapse" data-target="#DIR_@itemchild2.Id">
-                                                            <i class="fas fa-angle-down"></i>@itemchild2.Name
-                                                        </button>
-                                                    </div>
-
-                                                    <div class="collapse" id="DIR_@itemchild2.Id">
-                                                        <div class="card card-body">
-                                                            dziecko
-                                                        </div>
-                                                    </div>
-                                                }
-                                            }
-                                        </div>
-                                    </div>
-                                }
-                            }
-                        </div>
-                    </div>
-                }
-            }
+        <div class="alert alert-info alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Info!</strong> Zaloguj się do panelu klienta aby móc edytować drzewo.
         </div>
-    </div>
-</div>
+    }
 
+    <div class="card card-body">
+        @await Component.InvokeAsync("Tree", new { directories = Model, isFirstCall = true })
+    </div>
+
+</div>

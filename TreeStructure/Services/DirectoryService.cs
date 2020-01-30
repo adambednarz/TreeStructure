@@ -57,5 +57,33 @@ namespace TreeStructure.Services
             var directory = await _directoryRepository.GetAsync(id);
             await _directoryRepository.UpdateAsync(directory);
         }
+
+
+        public List<DirectoryDto> GetDirectoryTree(ICollection<DirectoryDto> directoryTree)
+        {
+            foreach (var item in directoryTree)
+            {
+                item.DirectoryChildren = GetDirectoryChildren(directoryTree, item);
+            }
+
+            return directoryTree.Where(b => b.ParentId == null).ToList();
+        }
+
+        private ICollection<DirectoryDto> GetDirectoryChildren(ICollection<DirectoryDto> allDirectories, DirectoryDto directory)
+        {
+            if (allDirectories.All(b => b.ParentId != directory.Id)) return null;
+
+            //recursive case
+            directory.DirectoryChildren = allDirectories
+                .Where(b => b.ParentId == directory.Id)
+                .ToList();
+
+            foreach (var item in directory.DirectoryChildren)
+            {
+                item.DirectoryChildren = GetDirectoryChildren(allDirectories, item);
+            }
+
+            return directory.DirectoryChildren;
+        }
     }
 }

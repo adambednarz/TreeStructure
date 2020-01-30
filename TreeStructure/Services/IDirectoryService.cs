@@ -15,5 +15,6 @@ namespace TreeStructure.Services
         Task<IEnumerable<DirectoryDto>> GetChilrenAsync(int? parentId);
         Task RemoveAsync(int id);
         Task UpdateAsync(int id);
+        List<DirectoryDto> GetDirectoryTree(ICollection<DirectoryDto> directoryTree);
     }
 }

@@ -1,0 +1,31 @@
+﻿@model AdminTreeViewComponentModel
+
+@foreach (var dir in Model.DirModel)
+{
+    <div class="list-group-item">
+        <button class="btn " type="button" data-toggle="collapse" data-target="#DIR_@dir.Id">
+            <i class="fas fa-angle-down fas-title"></i>@dir.Name
+        </button>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-light btn-sm">
+                <i class="fas fa-plus "></i>
+            </button>
+            <button type="button" class="btn btn-danger btn-sm">
+                <i class="fas fa-trash"></i>
+            </button>
+            <button type="button" class="btn btn-primary btn-sm">
+                <i class="fas fa-edit"></i>
+            </button>
+        </div>
+    </div>
+
+    if (dir.DirectoryChildren != null)
+    {
+        <div class="collapse" id="DIR_@dir.Id">
+            <div class="card card-body">
+                @await Component.InvokeAsync("AdminTree", new { directories = dir.DirectoryChildren, isFirstCall = false })
+            </div>
+        </div>
+    }
+}

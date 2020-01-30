@@ -19,13 +19,14 @@ i.fas {
     -moz-transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
 }
+i.fas-title {
+    padding-right: 10px;
+} 
 a.li-style {
     display: inline-block;
 }
-button i.fas {
-    padding-right: 10px;
-}
-.btn-group{
+
+.btn-group {
     margin: 0px 10px 0px 10px;
     float:right;
 }

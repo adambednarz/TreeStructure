@@ -2,92 +2,9 @@
 
 <div class="container">
     <h2 class="toast-header">Admin panel</h2>
-    <div>
-        <div class="list-group">
-            @foreach (var item in Model)
-            {
-                if (item.ParentId == null)
-                {
-                    <div class="list-group-item">
-                        <button class="btn " type="button" data-toggle="collapse" data-target="#DIR_@item.Id">
-                            <i class="fas fa-angle-down"></i>@item.Name
-                        </button>
-
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-light btn-sm">
-                                <i class="fas fa-plus "></i>
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                            <button type="button" class="btn btn-primary btn-sm">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="collapse" id="DIR_@item.Id">
-                        <div class=" card-body">
-                            @foreach (var itemchild in Model)
-                            {
-                                if (itemchild.ParentId == item.Id)
-                                {
-                                    <div class="list-group-item">
-                                        <button class="btn " type="button" data-toggle="collapse" data-target="#DIR_@itemchild.Id">
-                                            <i class="fas fa-angle-down"></i>@itemchild.Name
-                                        </button>
-
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-light btn-sm">
-                                                <i class="fas fa-plus "></i>
-                                            </button>
-                                            <button type="button" class="btn btn-danger btn-sm">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-primary btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="collapse" id="DIR_@itemchild.Id">
-                                        <div class="card card-body">
-                                            @foreach (var itemchild2 in Model)
-                                            {
-                                                if (itemchild2.ParentId == itemchild.Id)
-                                                {
-                                                    <div class="list-group-item">
-                                                        <button class="btn " type="button" data-toggle="collapse" data-target="#DIR_@itemchild2.Id">
-                                                            <i class="fas fa-angle-down"></i>@itemchild2.Name
-                                                        </button>
-                                                        <div class="btn-group">
-                                                            <button type="button" class="btn btn-light btn-sm">
-                                                                <i class="fas fa-plus "></i>
-                                                            </button>
-                                                            <button type="button" class="btn btn-danger btn-sm">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                            <button type="button" class="btn btn-primary btn-sm">
-                                                                <i class="fas fa-edit"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="collapse" id="DIR_@itemchild2.Id">
-                                                        <div class="card card-body">
-                                                            dziecko
-                                                        </div>
-                                                    </div>
-                                                }
-                                            }
-                                        </div>
-                                    </div>
-                                }
-                            }
-                        </div>
-                    </div>
-                }
-            }
-        </div>
+    <div class="card card-body">
+        @await Component.InvokeAsync("AdminTree", new { directories = Model, isFirstCall = true })
     </div>
 </div>
+
 
