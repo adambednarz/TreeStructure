@@ -34,7 +34,10 @@ namespace TreeStructure.Data.Repository
         public async Task<Directory> GetAsync(int id)
             => await _dbContext.Directores.FirstOrDefaultAsync(x => x.Id == id);
 
-        public async Task<IEnumerable<Directory>> GetAllForParentIdAsync(int? parentId)
+        public async Task<Directory> GetAsync(string name)
+            => await _dbContext.Directores.FirstOrDefaultAsync(x => x.Name == name);
+
+        public async Task<IEnumerable<Directory>> GetChildrenAsync(int? parentId)
             => await _dbContext.Directores.Where(x => x.ParentId == parentId).ToAsyncEnumerable().ToList();
 
         public async Task RemoveAsync(Directory dir)

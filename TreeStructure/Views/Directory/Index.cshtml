@@ -1,0 +1,10 @@
+﻿@model DirectoryDto
+
+<div class="container">
+    <h2 class="toast-header">Panel edycji kataogu: @Model.Name</h2>
+    <div class="card card-body">
+        @await Component.InvokeAsync("AdminTree", new { directories = Model, isFirstCall = true })
+    </div>
+</div>
+
+

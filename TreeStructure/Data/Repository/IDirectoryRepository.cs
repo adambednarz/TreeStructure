@@ -9,7 +9,8 @@ namespace TreeStructure.Data.Repository
     public interface IDirectoryRepository
     {
         Task<Directory> GetAsync(int id);
-        Task<IEnumerable<Directory>> GetAllForParentIdAsync(int? parentId);
+        Task<Directory> GetAsync(string name);
+        Task<IEnumerable<Directory>> GetChildrenAsync(int? parentId);
         Task<IEnumerable<Directory>> GetAllAsync();
         Task AddAsync(Directory dir);
         Task RemoveAsync(Directory dir);

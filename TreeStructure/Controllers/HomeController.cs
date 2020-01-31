@@ -34,7 +34,10 @@ namespace TreeStructure.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(DirectoryViewModel vm)
         {
-            await _dirService.CreateAsync(vm.Name, vm.ParentId);
+            if(vm.ParentId != null)
+                await _dirService.CreateByIdAsync(vm.Name, vm.ParentId);
+            else
+                await _dirService.CreateAsync(vm.Name, vm.ParentName);
          
             return View();
         }

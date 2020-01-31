@@ -11,12 +11,14 @@ namespace TreeStructure.Models
         public string Name { get; protected set; }
         public int? ParentId { get; protected set; }
 
-        protected Directory()
-        {
-        }
-
         public Directory(string name, int? parentId)
         {
+            SetName(name);
+            SetParent(parentId);
+        }
+        public Directory(string name, int? parentId, int id)
+        {
+            Id = id;
             SetName(name);
             SetParent(parentId);
         }
@@ -32,8 +34,8 @@ namespace TreeStructure.Models
 
         private void SetParent(int? parentId)
         {
-            if (parentId >= Id)
-                throw new Exception("The value of parent id can not be equal and grater than id.");
+            //if (parentId >= Id)
+            //    throw new Exception("The value of parent id can not be equal and grater than id.");
             if (parentId == ParentId)
                 return;
             ParentId = parentId;

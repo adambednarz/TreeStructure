@@ -22,5 +22,12 @@ namespace TreeStructure.Controllers
             var directories = await _dirService.BrowseAsync();
             return View(directories);
         }
+
+        [HttpGet("delete/directory/{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            await _dirService.RemoveAsync(id);
+            return  RedirectToAction("Index", "Home");
+        }
     }
 }

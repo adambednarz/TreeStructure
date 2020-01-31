@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace TreeStructure.ViewModels
 {
-    public class DirectoryViewModel
+    public class AddNewItemComponentModel
     {
         public string Name { get; set; } = null;
-        public string ParentName { get; set; } = null;
-        public int? ParentId { get; set; } = null;
+        public int? ParentId { get; set; } = 0;
 
     }
 }
