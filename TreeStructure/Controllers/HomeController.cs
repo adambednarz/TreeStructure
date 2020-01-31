@@ -26,11 +26,6 @@ namespace TreeStructure.Controllers
             return View(directories);
         }
 
-        public IActionResult Create()
-        {
-            return View();
-        }
-
         [HttpPost]
         public async Task<IActionResult> Create(DirectoryViewModel vm)
         {

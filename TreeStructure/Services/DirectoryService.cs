@@ -32,7 +32,6 @@ namespace TreeStructure.Services
             int? parentId = null;
             if (parentName != null)
             {
-
                 var parent = await _directoryRepository.GetAsync(parentName);
                 parentId = parent.Id;
             }

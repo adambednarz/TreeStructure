@@ -8,6 +8,6 @@ namespace TreeStructure.ViewModels
     public class RemoveItemComponentModel
     {
         public int Id { get; set; } = 0;
-        public bool Confirme { get; set; } = false;
+        public bool Confirmed { get; set; } = false;
     }
 }

@@ -17,30 +17,27 @@ namespace TreeStructure.Controllers
             _dirService = dirService;
         }
 
+
         [HttpGet()]
-        public async Task<IActionResult> Index(int id )
+        public async Task<IActionResult> Index(int id)
         {
             var model = await _dirService.GetAsync(id);
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(DirectoryViewModel vm)
+        public async Task<IActionResult> Create(AddNewItemComponentModel vm)
         {
-            if(vm.)
-            if (vm.ParentId != null)
-                await _dirService.CreateByIdAsync(vm.Name, vm.ParentId);
-            else
-                await _dirService.CreateAsync(vm.Name, vm.ParentName);
-
-            return RedirectToAction("Index", "Panel"); 
+            await _dirService.CreateByIdAsync(vm.Name, vm.ParentId);
+            return RedirectToAction("Index", "Panel");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(RemoveItemComponentModel vm)
         {
-             await _dirService.RemoveAsync(id);
-            return  RedirectToAction("Index", "Panel");
+            if (vm.Confirmed)
+                await _dirService.RemoveAsync(vm.Id);
+            return RedirectToAction("Index", "Panel");
         }
     }
 }

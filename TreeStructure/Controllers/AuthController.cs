@@ -38,20 +38,6 @@ namespace TreeStructure.Controllers
             }
         }
 
-        //[HttpGet]
-        //public IActionResult LoginCheck()
-        //{
-        //    if (User.Identity.IsAuthenticated)
-        //    {
-        //        return RedirectToAction("Index", "Home");
-        //    }
-        //    else
-        //    {
-        //        ViewBag.Message = "Podano nieprawidłowe dane. Spróbuj ponownie!";
-        //        return RedirectToAction("Login", "Auth",);
-        //    }
-        //}
-
         [HttpGet]
         public async Task<IActionResult> Logout()
         {

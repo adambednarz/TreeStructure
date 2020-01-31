@@ -21,7 +21,7 @@ namespace TreeStructure.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(int id )
         {
 
-            var viewModle = new RemoveItemComponentModel { Id = id, Confirme = false };
+            var viewModle = new RemoveItemComponentModel { Id = id, Confirmed = false };
             return await Task.FromResult(View(viewModle));
         }
     }
