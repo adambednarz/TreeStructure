@@ -7,24 +7,19 @@ using TreeStructure.ViewModels;
 
 namespace TreeStructure.ViewComponents
 {
-    public class AdminTreeViewComponent : ViewComponent
+    public class SelectTreeViewComponent : ViewComponent
     {
         private readonly IDirectoryService _directoryService;
 
-        public AdminTreeViewComponent(IDirectoryService directoryService)
+        public SelectTreeViewComponent(IDirectoryService directoryService)
         {
             _directoryService = directoryService;
         }
         
-        public async Task<IViewComponentResult> InvokeAsync(ICollection<DirectoryDto> directories, bool isFirstCall)
+        public async Task<IViewComponentResult> InvokeAsync(ICollection<DirectoryDto> directories)
         {
             //var dir = directories.ToList<DirectoryDto>().FirstOrDefault();
-            if (isFirstCall)
-            {
-                directories = _directoryService.GetDirectoryTree(directories);
-            }
-
-            var viewModle = new AdminTreeViewComponentModel { DirModel = directories, EditDirModel = directories};
+            var viewModle = new SelectTreeViewComponentModel { SelectDirModel = directories};
 
             return await Task.FromResult(View(viewModle));
         }

@@ -1,4 +1,4 @@
-﻿@model TreeViewComponentModel
+﻿@model HomeTreeViewComponentModel
 
 @foreach (var dir in Model.DirModel)
 {
@@ -12,7 +12,7 @@
     {
         <div class="collapse" id="DIR_@dir.Id">
             <div class="card card-body">
-                @await Component.InvokeAsync("Tree", new { directories = dir.DirectoryChildren, isFirstCall = false })
+                @await Component.InvokeAsync("HomeTree", new { directories = dir.DirectoryChildren, isFirstCall = false })
             </div>
         </div>
     }

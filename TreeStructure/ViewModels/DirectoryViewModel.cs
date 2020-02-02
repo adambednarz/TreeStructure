@@ -10,6 +10,5 @@ namespace TreeStructure.ViewModels
         public string Name { get; set; } = null;
         public string ParentName { get; set; } = null;
         public int? ParentId { get; set; } = null;
-
     }
 }

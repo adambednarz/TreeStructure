@@ -11,10 +11,10 @@
                 <button type="button" class="btn btn-light btn-sm" data-toggle="collapse" data-target="#ADD_@dir.Id">
                     <i class="fas fa-plus "></i>
                 </button>
-                <button type="button" class="btn btn-primary btn-sm" >
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="collapse" data-target="#EDIT_@dir.Id">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button  type="button" class="btn btn-danger btn-sm" data-toggle="collapse" data-target="#REM_@dir.Id">
+                <button type="button" class="btn btn-danger btn-sm" data-toggle="collapse" data-target="#REM_@dir.Id">
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
@@ -22,11 +22,13 @@
     </form>
     <div class="collapse card card-body" , id="ADD_@dir.Id">
         @await Component.InvokeAsync("AddNewItem", new { parentId = dir.Id })
-    </div> 
+    </div>
+    <div class="collapse card card-body" , id="EDIT_@dir.Id">
+        @await Component.InvokeAsync("EditItem", new { directories = Model.EditDirModel, parentId = dir.Id, name = dir.Name, sFirstCall = false })
+    </div>
     <div class="collapse card card-body" , id="REM_@dir.Id">
         @await Component.InvokeAsync("RemoveItem", new { id = dir.Id })
     </div>
-
 
 
     if (dir.DirectoryChildren != null)

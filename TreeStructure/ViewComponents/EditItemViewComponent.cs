@@ -9,25 +9,23 @@ using TreeStructure.ViewModels;
 
 namespace TreeStructure.ViewComponents
 {
-    public class TreeViewComponent : ViewComponent
+    public class EditItemViewComponent : ViewComponent
     {
         private readonly IDirectoryService _directoryService;
 
-        public TreeViewComponent(IDirectoryService directoryService)
+        public EditItemViewComponent(IDirectoryService directoryService)
         {
             _directoryService = directoryService;
         }
-        
-        public async Task<IViewComponentResult> InvokeAsync(ICollection<DirectoryDto> directories, bool isFirstCall)
+
+        public async Task<IViewComponentResult> InvokeAsync(ICollection<DirectoryDto> directories,  int? parentId, string name, bool isFirstCall)
         {
-            //var dir = directories.ToList<DirectoryDto>().FirstOrDefault();
             if (isFirstCall)
             {
                 directories = _directoryService.GetDirectoryTree(directories);
             }
 
-            var viewModle = new TreeViewComponentModel { DirModel = directories};
-
+            var viewModle = new EditItemViewComponentModel { EditDirModel = directories, SelectDirModel = directories, ParentId = parentId, NewName = name};
             return await Task.FromResult(View(viewModle));
         }
     }

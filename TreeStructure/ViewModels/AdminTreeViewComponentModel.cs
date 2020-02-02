@@ -10,5 +10,6 @@ namespace TreeStructure.ViewModels
     {
         public bool IsFirstCall { get; set; }
         public ICollection<DirectoryDto> DirModel { get; set; }
+        public ICollection<DirectoryDto> EditDirModel { get; set; }
     };
 }

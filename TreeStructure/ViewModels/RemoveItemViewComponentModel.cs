@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TreeStructure.ViewModels
 {
-    public class RemoveItemComponentModel
+    public class RemoveItemViewComponentModel
     {
         public int Id { get; set; } = 0;
         public bool Confirmed { get; set; } = false;

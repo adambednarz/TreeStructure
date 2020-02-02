@@ -20,7 +20,7 @@ namespace TreeStructure.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(int? parentId )
         {
-            var viewModle = new AddNewItemComponentModel { ParentId = parentId, Name = ""};
+            var viewModle = new AddNewItemViewComponentModel { ParentId = parentId, Name = ""};
 
             return await Task.FromResult(View(viewModle));
         }

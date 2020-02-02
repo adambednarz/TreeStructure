@@ -6,10 +6,9 @@ using TreeStructure.DTO;
 
 namespace TreeStructure.ViewModels
 {
-    public class TreeViewComponentModel
+    public class HomeTreeViewComponentModel
     {
         public bool IsFirstCall { get; set; }
         public ICollection<DirectoryDto> DirModel { get; set; }
-
     };
 }

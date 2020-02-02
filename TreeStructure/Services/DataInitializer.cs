@@ -30,29 +30,30 @@ namespace TreeStructure.Services
 
             _logger.LogTrace("Data was already initialized.");
 
-            await  _directoryService.CreateByIdAsync("Mój komputer", null);
-            await  _directoryService.CreateByIdAsync("One Drive", null);
-            await _directoryService.CreateAsync("Dyck C", "Mój komputer");
-            await _directoryService.CreateAsync("Dysk E", "Mój komputer");
-            await _directoryService.CreateAsync("Dokumenty", "Dyck C");
-            await _directoryService.CreateAsync("Zdjęcia", "Dyck C");
-            await _directoryService.CreateAsync("Publikacje", "One Drive");
-            await _directoryService.CreateAsync("Notatki", "One Drive");
-            await _directoryService.CreateAsync("Praca", "Dokumenty");
-            await _directoryService.CreateAsync("Dom", "Dokumenty");
-            await _directoryService.CreateAsync("Finanse", "Dom");
-            await _directoryService.CreateAsync("Paragony", "Finanse");
-            await _directoryService.CreateAsync("Kalendarz", "Dom");
-            await _directoryService.CreateAsync("Koncerty", "Kalendarz");
-            await _directoryService.CreateByIdAsync("Pendrive", null);
-            await _directoryService.CreateAsync("Projekty It", "Praca");
-            await _directoryService.CreateAsync("Frontend", "Projekty It");
-            await _directoryService.CreateAsync("Backend", "Projekty It");
-            await _directoryService.CreateAsync("Architektura", "Backend");
-            await _directoryService.CreateAsync("DDD", "Architektura");
-            await _directoryService.CreateAsync("Onion Architecture", "Architektura");
+            await _directoryService.CreateAsync("Mój komputer", null);
+            await _directoryService.CreateAsync("One Drive", null);
+            await _directoryService.CreateAsync("Dyck C", null, "Mój komputer");
+            await _directoryService.CreateAsync("Dysk E", null, "Mój komputer");
+            await _directoryService.CreateAsync("Dokumenty", null, "Dyck C");
+            await _directoryService.CreateAsync("Zdjęcia", null, "Dyck C");
+            await _directoryService.CreateAsync("Publikacje", null, "One Drive");
+            await _directoryService.CreateAsync("Notatki", null, "One Drive");
+            await _directoryService.CreateAsync("Praca", null, "Dokumenty");
+            await _directoryService.CreateAsync("Dom", null, "Dokumenty");
+            await _directoryService.CreateAsync("Finanse", null, "Dom");
+            await _directoryService.CreateAsync("Paragony", null, "Finanse");
+            await _directoryService.CreateAsync("Kalendarz", null, "Dom");
+            await _directoryService.CreateAsync("Koncerty", null, "Kalendarz");
+            await _directoryService.CreateAsync("Pendrive", null);
+            await _directoryService.CreateAsync("Projekty It", null, "Praca");
+            await _directoryService.CreateAsync("Frontend", null, "Projekty It");
+            await _directoryService.CreateAsync("Backend", null, "Projekty It");
+            await _directoryService.CreateAsync("Architektura", null, "Backend");
+            await _directoryService.CreateAsync("DDD", null, "Architektura");
+            await _directoryService.CreateAsync("Onion Architecture", null, "Architektura");
 
             _logger.LogTrace("Data was initialized.");
         }
+
     }
 }

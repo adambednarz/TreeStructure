@@ -1,4 +1,4 @@
-﻿@model RemoveItemComponentModel
+﻿@model RemoveItemViewComponentModel
 
 <form asp-controller="Directory" asp-action="Delete" method="post" class="container">
         <input asp-for="Confirmed" required /> Czy na pewno chcesz usunąć wybrany katalog i wszystkie jego podkatalogi?
@@ -7,10 +7,6 @@
         <button type="button" class="btn btn-sm btn-secondary"  data-toggle="collapse" data-target="#REM_@Model.Id" >Anuluj</button>
     </div>
     <div class="form-group  collapse ">
-        <label> Dla rodzica </label>
         <input class="form-control" asp-for="Id" />
     </div>
 </form>
-
-
-

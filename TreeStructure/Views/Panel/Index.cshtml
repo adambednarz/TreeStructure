@@ -1,10 +1,16 @@
 ﻿@model IEnumerable<DirectoryDto>
 
-<div class="container">
-    <h2 class="toast-header">Admin panel</h2>
-    <div class="card card-body">
-        @await Component.InvokeAsync("AdminTree", new { directories = Model, isFirstCall = true })
+    <div class="container">
+        <h2 class="toast-header">Admin panel</h2>
+        <button type="button" class="btn btn-light btn-sm" data-toggle="collapse" data-target="#ADD_NEW">
+            <i class="fas fa-plus "></i> Dodaj nowy katalog
+        </button>
+        <div class="collapse card card-body" , id="ADD_NEW">
+            @await Component.InvokeAsync("AddNewItem", new { })
+        </div>
+        <div class="card card-body">
+            @await Component.InvokeAsync("AdminTree", new { directories = Model, isFirstCall = true })
+        </div>
     </div>
-</div>
 
 

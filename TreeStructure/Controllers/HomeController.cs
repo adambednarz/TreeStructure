@@ -25,16 +25,5 @@ namespace TreeStructure.Controllers
             var directories = await _dirService.BrowseAsync();
             return View(directories);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(DirectoryViewModel vm)
-        {
-            if(vm.ParentId != null)
-                await _dirService.CreateByIdAsync(vm.Name, vm.ParentId);
-            else
-                await _dirService.CreateAsync(vm.Name, vm.ParentName);
-         
-            return View();
-        }
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TreeStructure.Data.Repository;
 using TreeStructure.DTO;
+using TreeStructure.Extensionx;
 using TreeStructure.Models;
 
 namespace TreeStructure.Services
@@ -21,45 +22,62 @@ namespace TreeStructure.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<DirectoryDto>> BrowseAsync()
-        {
-            var directories = await _directoryRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<DirectoryDto>>(directories);
-        }
 
-        public async Task CreateAsync(string name, string parentName)
+        public async Task CreateAsync(string name, int? parentId = null, string parentName = null)
         {
-            int? parentId = null;
-            if (parentName != null)
+
+            if (parentId == null && parentName != null)           // required for DatainitIalizer service
             {
-                var parent = await _directoryRepository.GetAsync(parentName);
+                var parent = await _directoryRepository.GetOrFailAsync(parentName);
                 parentId = parent.Id;
+            }
+            else if (parentId != null)
+            {
+                await _directoryRepository.GetOrFailAsync((int)parentId);
+            }
+
+            var directoryChildren = await GetNodeChilrenAsync(parentId);
+            if (directoryChildren.Any(x => x.Name == name))
+            {
+                throw new Exception($"The folder with name '{name}' already exist in the current directory.");
             }
 
             var directory = new Directory(name, parentId);
             await _directoryRepository.AddAsync(directory);
         }
 
-        public async Task CreateByIdAsync(string name, int? parentId)
+        public async Task<IEnumerable<DirectoryDto>> BrowseAsync()
         {
-            var directory = new Directory(name, parentId);
-            await _directoryRepository.AddAsync(directory);
+            var directories = await _directoryRepository.GetAllAsync();
+            if (directories== null)
+                return null;
+
+            return _mapper.Map<IEnumerable<DirectoryDto>>(directories);
         }
 
         public async Task<DirectoryDto> GetAsync(int id)
         {
             var directory = await _directoryRepository.GetAsync(id);
-            return _mapper.Map<DirectoryDto>(directory);
-        }
-        public async Task<DirectoryDto> GetAsync(string name)
-        {
-            var directory = await _directoryRepository.GetAsync(name);
+            if (directory == null)
+                return null;
+
             return _mapper.Map<DirectoryDto>(directory);
         }
 
-        public async Task<ICollection<DirectoryDto>> GetChilrenAsync(int id)
+        public async Task<DirectoryDto> GetAsync(string name)
+        {
+            var directory = await _directoryRepository.GetAsync(name);
+            if (directory == null)
+                return null;
+
+            return _mapper.Map<DirectoryDto>(directory);
+        }
+
+        public async Task<ICollection<DirectoryDto>> GetNodeChilrenAsync(int? id)
         {
             var directories = await _directoryRepository.GetChildrenAsync(id);
+            if (directories == null)
+                return null;
 
             return _mapper.Map<ICollection<DirectoryDto>>(directories);
         }
@@ -68,64 +86,65 @@ namespace TreeStructure.Services
         {
             foreach (var item in directoryTree)
             {
-                item.DirectoryChildren = GetDirectoryChildren(directoryTree, item);
+                item.DirectoryChildren = GetChildernRecursive(directoryTree, item);
             }
 
             return directoryTree.Where(b => b.ParentId == null).ToList();
         }
 
-        private ICollection<DirectoryDto> GetDirectoryChildren(ICollection<DirectoryDto> allDirectories, DirectoryDto directory)
+        private ICollection<DirectoryDto> GetChildernRecursive(ICollection<DirectoryDto> allDirectories, DirectoryDto directory)
         {
             if (allDirectories.All(b => b.ParentId != directory.Id)) return null;
 
-            //recursive case
             directory.DirectoryChildren = allDirectories
                 .Where(b => b.ParentId == directory.Id)
                 .ToList();
 
             foreach (var item in directory.DirectoryChildren)
             {
-                item.DirectoryChildren = GetDirectoryChildren(allDirectories, item);
+                item.DirectoryChildren = GetChildernRecursive(allDirectories, item);
             }
 
             return directory.DirectoryChildren;
         }
         public async Task RemoveAsync(int id)
         {
-            var children = await GetChilrenAsync(id);
+            var children = await GetNodeChilrenAsync(id);
             if (children != null)
             {
                 foreach (var item in children)
                 {
-                    await RemoveRecursive(children);
+                    await RemoveChildrenRecursive(children);
                 }
             }
-            await RemoveDirAsync(id);
+            await RemoveDirectoryAsync(id);
         }
 
-        private async Task RemoveRecursive(ICollection<DirectoryDto> collection)
+        private async Task RemoveChildrenRecursive(ICollection<DirectoryDto> collection)
         {
             if (collection != null)
             {
                 foreach (var item in collection)
                 {
-                    var children = await GetChilrenAsync(item.Id);
-                    await RemoveRecursive(children);
-                    await RemoveDirAsync(item.Id);
+                    var children = await GetNodeChilrenAsync(item.Id);
+                    await RemoveChildrenRecursive(children);
+                    await RemoveDirectoryAsync(item.Id);
                 }
             }
         }
 
-        private async Task RemoveDirAsync(int id)
+        private async Task RemoveDirectoryAsync(int id)
         {
             var directory = await _directoryRepository.GetAsync(id);
-            if(directory != null)
-            await _directoryRepository.RemoveAsync(directory);
+            if (directory != null)
+                await _directoryRepository.RemoveAsync(directory);
         }
 
-        public async Task UpdateAsync(int id)
+        public async Task UpdateAsync(int id, string name, int? parentId)
         {
             var directory = await _directoryRepository.GetAsync(id);
+            directory.SetName(name);
+            directory.SetParent(parentId);
             await _directoryRepository.UpdateAsync(directory);
         }
     }

@@ -16,14 +16,8 @@ namespace TreeStructure.Models
             SetName(name);
             SetParent(parentId);
         }
-        public Directory(string name, int? parentId, int id)
-        {
-            Id = id;
-            SetName(name);
-            SetParent(parentId);
-        }
 
-        private void SetName(string name)
+        public void SetName(string name)
         {
             if(string.IsNullOrEmpty(name))
                 throw new Exception("Directory can not have empty name.");
@@ -32,10 +26,8 @@ namespace TreeStructure.Models
             Name = name;
         }
 
-        private void SetParent(int? parentId)
+        public void SetParent(int? parentId)
         {
-            //if (parentId >= Id)
-            //    throw new Exception("The value of parent id can not be equal and grater than id.");
             if (parentId == ParentId)
                 return;
             ParentId = parentId;
