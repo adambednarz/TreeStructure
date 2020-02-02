@@ -17,16 +17,21 @@ namespace TreeStructure.ViewComponents
         {
             _directoryService = directoryService;
         }
-        
-        public async Task<IViewComponentResult> InvokeAsync(ICollection<DirectoryDto> directories, bool isFirstCall)
+
+        public async Task<IViewComponentResult> InvokeAsync(ICollection<DirectoryDto> directories, bool isFirstCall, string order)
         {
-            //var dir = directories.ToList<DirectoryDto>().FirstOrDefault();
             if (isFirstCall)
             {
-                directories = _directoryService.GetDirectoryTree(directories);
+                var alldirectories = await _directoryService.BrowseAsync();
+                if (order == "ascending")
+                    alldirectories = alldirectories.OrderBy(x => x.Name).ToList();
+                else if (order == "descending")
+                    alldirectories = alldirectories.OrderByDescending(x => x.Name).ToList();
+
+                directories = _directoryService.GetDirectoryTree(alldirectories);
             }
 
-            var viewModle = new HomeTreeViewComponentModel { DirModel = directories};
+            var viewModle = new HomeTreeViewComponentModel { DirModel = directories };
 
             return await Task.FromResult(View(viewModle));
         }

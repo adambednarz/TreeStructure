@@ -2,27 +2,30 @@
 
 <form asp-controller="Directory" asp-action="Edit" method="post" class="container">
     <div class="form-inline ">
-        <input class="form-control" asp-for="NewName" placeholder="Podaj nową nazwę" required />
-        <div class="form-group  collapse ">
+        <input class="form-control" asp-for="NewName" placeholder="Przenieś do" required />
+        <div class="form-group collapse ">
             <input class="form-control" asp-for="Id" />
         </div>
         <div class="form-group">
             <label class="control-label">Przenieś do katalogu:</label>
-            <select id="company" class="form-control" name="company" asp-for="ParentId">
-                >
+            <select class="form-control" asp-for="ParentId">
+
+                <option value="ParetnId"> -----</option>
                 @foreach (var item in Model.EditDirModel)
                 {
                     <option value="@item.Id"> @item.Name</option>
                     if (item.DirectoryChildren != null)
                     {
-                        @await Component.InvokeAsync("SelectTree", new { directories = item.DirectoryChildren, isfirstcall = false })
+                        @await Component.InvokeAsync("SelectTree", new { directories = item.DirectoryChildren })
                     }
                 }
             </select>
-            <button type="submit" class="btn btn-sm btn-primary">Zatwierdź</button>
-            <button type="button" class="btn btn-sm btn-secondary" data-toggle="collapse" data-target="#EDIT_@Model.ParentId">Anuluj</button>
+            @*<div class="form-group collapse ">
+                    <input class="form-control" asp-for="ParentId" />
+                </div>*@
+            <button type="submit" class="btn btn-sm btn-primary confirm">Zatwierdź</button>
+            <button type="button" class="btn btn-sm btn-secondary confirm" data-toggle="collapse" data-target="#EDIT_@Model.Id">Anuluj</button>
 
         </div>
     </div>
 </form>
-

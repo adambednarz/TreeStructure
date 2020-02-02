@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TreeStructure.Data.Repository;
 using TreeStructure.Services;
+using TreeStructure.ViewModels;
 
 namespace TreeStructure.Controllers
 {
@@ -18,10 +19,10 @@ namespace TreeStructure.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string order)
         {
-            var directories = await _dirService.BrowseAsync();
-            return View(directories);
+            var viewModle = new PanelViewModel { Order = order };
+            return await Task.FromResult(View(viewModle)); ;
         }
     }
 }

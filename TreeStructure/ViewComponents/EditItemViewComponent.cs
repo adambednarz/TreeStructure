@@ -18,14 +18,17 @@ namespace TreeStructure.ViewComponents
             _directoryService = directoryService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(ICollection<DirectoryDto> directories,  int? parentId, string name, bool isFirstCall)
+        public async Task<IViewComponentResult> InvokeAsync( int id, string name, int? parentId)
         {
-            if (isFirstCall)
-            {
-                directories = _directoryService.GetDirectoryTree(directories);
-            }
+            var alldirectories = await _directoryService.BrowseAsync();
+            var currentDirector = await _directoryService.GetAsync(id);
+            var directoryTree = _directoryService.GetDirectoryTree(alldirectories);
+            var currentDirectoryTree = _directoryService.GetDirectoryTree(alldirectories, currentDirector);
 
-            var viewModle = new EditItemViewComponentModel { EditDirModel = directories, SelectDirModel = directories, ParentId = parentId, NewName = name};
+            var directoriesToDisplay =  directoryTree.Where(x => !currentDirectoryTree.Any(y => y.Id == x.Id)).ToList();
+
+
+            var viewModle = new EditItemViewComponentModel { EditDirModel = directoryTree, SelectDirModel = directoriesToDisplay, Id = id, ParentId = parentId, NewName = name };
             return await Task.FromResult(View(viewModle));
         }
     }

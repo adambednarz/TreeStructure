@@ -3,9 +3,9 @@
 @foreach (var item in Model.SelectDirModel)
 {
     <option value="@item.Id"> @item.Name</option>
-    if (item.DirectoryChildren!= null)
+    if (item.DirectoryChildren != null)
     {
-        @await Component.InvokeAsync("SelectTree", new { directories = item.DirectoryChildren })
+        @*@await Component.InvokeAsync("SelectTree", new { directories = item.DirectoryChildren })*@
     }
 }
 

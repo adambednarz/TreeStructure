@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DirectoryDto>
+﻿@model HomeViewModel
 
 <div class="container">
     <h2 class="toast-header">Home panel</h2>
@@ -9,9 +9,24 @@
             <strong>Info!</strong> Zaloguj się do panelu klienta aby móc edytować drzewo.
         </div>
     }
+    <div class="form-inline">
+        <div class="div-right">
+            <form asp-controller="Home" asp-action="Index" method="get" class="form-group input-group-sm">
+                <label class="control-label">Sortowanie:  </label>
+                <select class="form-control" asp-for="Order">
+                    <option value=""> ----</option>
+                    <option value="ascending"> Po nazwie A-Z</option>
+                    <option value="descending"> Po nazwie Z-A</option>
+                </select>
+                <button type="submit" class="btn btn-light btn-sm">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </form>
+        </div>
+    </div>
 
     <div class="card card-body">
-        @await Component.InvokeAsync("HomeTree", new { directories = Model, isFirstCall = true })
+        @await Component.InvokeAsync("HomeTree", new { isFirstCall = true, order = Model.Order  })
     </div>
 
 </div>

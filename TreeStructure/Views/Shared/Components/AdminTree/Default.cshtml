@@ -24,7 +24,7 @@
         @await Component.InvokeAsync("AddNewItem", new { parentId = dir.Id })
     </div>
     <div class="collapse card card-body" , id="EDIT_@dir.Id">
-        @await Component.InvokeAsync("EditItem", new { directories = Model.EditDirModel, parentId = dir.Id, name = dir.Name, sFirstCall = false })
+        @await Component.InvokeAsync("EditItem", new { id = dir.Id, parentId = dir.ParentId, name = dir.Name})
     </div>
     <div class="collapse card card-body" , id="REM_@dir.Id">
         @await Component.InvokeAsync("RemoveItem", new { id = dir.Id })

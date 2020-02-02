@@ -45,3 +45,14 @@ a.li-style {
 .card-body {
     padding: 0.25rem 0rem 0.25rem 0.5rem;
 }
+
+.div-right {
+    margin-left: auto;
+    margin-right: 10px;   
+}
+label {
+    margin: 0px 10px 0px 10px;
+}
+button.confirm {
+    margin: 0px 0px 0px 8px;
+}

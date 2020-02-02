@@ -29,7 +29,7 @@ namespace TreeStructure.Controllers
             var loginStatus = await _signInManager.PasswordSignInAsync(vm.UserName, vm.Password, false, false);
             if(loginStatus.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Panel");
             }
             else
             {

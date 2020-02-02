@@ -20,10 +20,10 @@ namespace TreeStructure.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string order)
         {
-            var directories = await _dirService.BrowseAsync();
-            return View(directories);
+            var viewModle = new HomeViewModel { Order = order };
+            return await Task.FromResult(View(viewModle)); ;
         }
     }
 }

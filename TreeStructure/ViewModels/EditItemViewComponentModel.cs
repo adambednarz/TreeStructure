@@ -7,10 +7,10 @@ namespace TreeStructure.ViewModels
     {
         public int Id { get; set; } = 0;
         public string NewName { get; set; } = null;
-        public int? ParentId { get; set; } = 0;
+        public int? ParentId { get; set; } = null;
         public bool FirstCall { get; set; }
         public bool Confirmed { get; set; } = false;
-        public ICollection<DirectoryDto> EditDirModel { get; set; }
-        public ICollection<DirectoryDto> SelectDirModel { get; set; }
+        public IEnumerable<DirectoryDto> EditDirModel { get; set; }
+        public IEnumerable<DirectoryDto> SelectDirModel { get; set; }
     }
 }

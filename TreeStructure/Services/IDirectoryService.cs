@@ -15,10 +15,10 @@ namespace TreeStructure.Services
         //Task CreateAsync(int id, string name, int? parentId);
         Task<DirectoryDto> GetAsync(int id);
         Task<DirectoryDto> GetAsync(string name);
-        Task<IEnumerable<DirectoryDto>> BrowseAsync();
+        Task<ICollection<DirectoryDto>> BrowseAsync();
         Task<ICollection<DirectoryDto>> GetNodeChilrenAsync(int? id);
         Task RemoveAsync(int id);
         Task UpdateAsync(int id, string name, int? parentId);
-        List<DirectoryDto> GetDirectoryTree(ICollection<DirectoryDto> directoryTree);
+        List<DirectoryDto> GetDirectoryTree(ICollection<DirectoryDto> directoryTree, DirectoryDto currentDirectory = null);
     }
 }

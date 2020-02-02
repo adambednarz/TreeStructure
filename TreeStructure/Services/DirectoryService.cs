@@ -46,13 +46,13 @@ namespace TreeStructure.Services
             await _directoryRepository.AddAsync(directory);
         }
 
-        public async Task<IEnumerable<DirectoryDto>> BrowseAsync()
+        public async Task<ICollection<DirectoryDto>> BrowseAsync()
         {
             var directories = await _directoryRepository.GetAllAsync();
-            if (directories== null)
+            if (directories == null)
                 return null;
 
-            return _mapper.Map<IEnumerable<DirectoryDto>>(directories);
+            return _mapper.Map<ICollection<DirectoryDto>>(directories);
         }
 
         public async Task<DirectoryDto> GetAsync(int id)
@@ -82,14 +82,26 @@ namespace TreeStructure.Services
             return _mapper.Map<ICollection<DirectoryDto>>(directories);
         }
 
-        public List<DirectoryDto> GetDirectoryTree(ICollection<DirectoryDto> directoryTree)
+        public List<DirectoryDto> GetDirectoryTree(ICollection<DirectoryDto> directoryTree, DirectoryDto currentDirectory = null)
         {
-            foreach (var item in directoryTree)
+            if (currentDirectory != null)
             {
-                item.DirectoryChildren = GetChildernRecursive(directoryTree, item);
+                foreach (var item in directoryTree)
+                {
+                    item.DirectoryChildren = GetChildernRecursive(directoryTree, currentDirectory);
+                }
+                //currentDirectory.DirectoryChildren = GetChildernRecursive(directoryTree, currentDirectory);
+                return directoryTree.Where(b => b.ParentId == currentDirectory.Id).ToList();
             }
+            else
+            {
+                foreach (var item in directoryTree)
+                {
+                    item.DirectoryChildren = GetChildernRecursive(directoryTree, item);
+                }
 
-            return directoryTree.Where(b => b.ParentId == null).ToList();
+                return directoryTree.Where(b => b.ParentId == null).ToList();
+            }
         }
 
         private ICollection<DirectoryDto> GetChildernRecursive(ICollection<DirectoryDto> allDirectories, DirectoryDto directory)

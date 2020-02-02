@@ -11,13 +11,6 @@ namespace TreeStructure.ViewComponents
 {
     public class AddNewItemViewComponent : ViewComponent
     {
-        private readonly IDirectoryService _directoryService;
-
-        public AddNewItemViewComponent(IDirectoryService directoryService)
-        {
-            _directoryService = directoryService;
-        }
-
         public async Task<IViewComponentResult> InvokeAsync(int? parentId )
         {
             var viewModle = new AddNewItemViewComponentModel { ParentId = parentId, Name = ""};
