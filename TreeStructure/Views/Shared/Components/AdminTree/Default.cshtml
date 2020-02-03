@@ -20,6 +20,9 @@
             </div>
         </div>
     </form>
+    <div class="form-group collapse ">
+        <input class="form-control" asp-for="Order" />
+    </div>
     <div class="collapse card card-body" , id="ADD_@dir.Id">
         @await Component.InvokeAsync("AddNewItem", new { parentId = dir.Id, order = Model.Order })
     </div>
@@ -35,7 +38,12 @@
     {
         <div class="collapse" id="DIR_@dir.Id">
             <div class="card card-body">
-                @await Component.InvokeAsync("AdminTree", new { directories = dir.DirectoryChildren, isFirstCall = false })
+                @await Component.InvokeAsync("AdminTree", new
+                {
+                    directories = dir.DirectoryChildren,
+                isFirstCall = false,
+                    order = Model.Order
+                })
             </div>
         </div>
     }

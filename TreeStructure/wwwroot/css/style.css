@@ -36,9 +36,7 @@ a.li-style {
 .card{
     border: 0px solid black;
 }
-/*div.card .card-body {
-    padding: 0.25rem 0rem 0.25rem 0.5rem;
-}*/
+
 .list-group-item {
     padding: 0.25rem 0rem 0.25rem 0.5rem;
 }
@@ -55,4 +53,7 @@ label {
 }
 button.confirm {
     margin: 0px 0px 0px 8px;
+}
+.m-auto {
+    margin:20px auto 20px auto;
 }

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TreeStructure.Data.Repository;
 using TreeStructure.DTO;
@@ -36,7 +35,7 @@ namespace TreeStructure.Services
                 await _directoryRepository.GetOrFailAsync((int)parentId);
             }
 
-            var directoryChildren = await GetNodeChilrenAsync(parentId);
+            var directoryChildren = await GetNodeOfFirstLevelChilrenAsync(parentId);
             if (directoryChildren.Any(x => x.Name == name))
             {
                 throw new Exception($"The folder with name '{name}' already exist in the current directory.");
@@ -46,7 +45,7 @@ namespace TreeStructure.Services
             await _directoryRepository.AddAsync(directory);
         }
 
-        public async Task<IEnumerable<DirectoryDto>> GetAllNode()
+        public async Task<IEnumerable<DirectoryDto>> GetAlltTreeNodes()
         {
             var directories = await _directoryRepository.GetAllAsync();
             if (directories == null)
@@ -73,7 +72,7 @@ namespace TreeStructure.Services
             return _mapper.Map<DirectoryDto>(directory);
         }
 
-        public async Task<IEnumerable<DirectoryDto>> GetNodeChilrenAsync(int? id)
+        public async Task<IEnumerable<DirectoryDto>> GetNodeOfFirstLevelChilrenAsync(int? id)
         {
             var directories = await _directoryRepository.GetChildrenAsync(id);
             if (directories == null)
@@ -121,7 +120,7 @@ namespace TreeStructure.Services
         }
         public async Task RemoveAsync(int id)
         {
-            var children = await GetNodeChilrenAsync(id);
+            var children = await GetNodeOfFirstLevelChilrenAsync(id);
             if (children != null)
             {
                 foreach (var item in children)
@@ -138,7 +137,7 @@ namespace TreeStructure.Services
             {
                 foreach (var item in collection)
                 {
-                    var children = await GetNodeChilrenAsync(item.Id);
+                    var children = await GetNodeOfFirstLevelChilrenAsync(item.Id);
                     await RemoveChildrenRecursive(children);
                     await RemoveDirectoryAsync(item.Id);
                 }
@@ -160,19 +159,18 @@ namespace TreeStructure.Services
             await _directoryRepository.UpdateAsync(directory);
         }
 
-
-        public async Task<IEnumerable<DirectoryDto>> GetDirectoryTreeDifference(int id)
+        public async Task<IEnumerable<DirectoryDto>> GetDirectoryTreeDifference(IEnumerable<DirectoryDto> parentCollection,
+            IEnumerable<DirectoryDto> childCollection, int childCollectionParentId)
         {
-            var allDirectories = await GetAllNode();
-            var children = await GetNodeChilrenAsync(id);
-            if (children != null)
+            //var allDirectories = await GetAlltTreeNodes();
+            //var children = await GetNodeOfFirstLevelChilrenAsync(id);
             {
-                foreach (var item in children.ToList())
+                foreach (var item in childCollection.ToList())
                 {
-                    allDirectories = await SubtractChildrenRecursive(allDirectories, children);
+                    parentCollection = await SubtractChildrenRecursive(parentCollection, childCollection);
                 }
             }
-            return allDirectories.Where(x => x.Id != id);
+            return parentCollection.Where(x => x.Id != childCollectionParentId);
         }
 
         private async Task<IEnumerable<DirectoryDto>> SubtractChildrenRecursive(IEnumerable<DirectoryDto> bascollection, IEnumerable<DirectoryDto> collection)
@@ -181,7 +179,7 @@ namespace TreeStructure.Services
             {
                 foreach (var item in collection.ToList())
                 {
-                    var children = await GetNodeChilrenAsync(item.Id);
+                    var children = await GetNodeOfFirstLevelChilrenAsync(item.Id);
                     await SubtractChildrenRecursive(bascollection, children);
                     bascollection = bascollection.Where(x => x.Id != item.Id);
                 }

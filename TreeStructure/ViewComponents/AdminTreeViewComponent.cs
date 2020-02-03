@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TreeStructure.DTO;
+using TreeStructure.Extensionx;
 using TreeStructure.Services;
 using TreeStructure.ViewModels;
 
@@ -21,15 +22,8 @@ namespace TreeStructure.ViewComponents
         {
             if (isFirstCall)
             {
-                var alldirectories = await _directoryService.GetAllNode();
-                if (order == "ascending")
-                    alldirectories = alldirectories.OrderBy(x => x.Name).ToList();
-                else if (order == "descending")
-                    alldirectories = alldirectories.OrderByDescending(x => x.Name).ToList();
-                else if (order == "reverse")
-                    alldirectories = alldirectories.Reverse().ToList();
-
-                directories = _directoryService.GetDirectoryTree(alldirectories);
+                var alldirectories = await _directoryService.GetAlltTreeNodes();
+                directories = _directoryService.GetDirectoryTree(alldirectories.OrderDirectoryBy(order));
             }
 
             var viewModle = new AdminTreeViewComponentModel { TreeModel = directories, Order = order};

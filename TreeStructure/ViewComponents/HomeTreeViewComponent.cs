@@ -18,11 +18,12 @@ namespace TreeStructure.ViewComponents
             _directoryService = directoryService;
         }
 
+
         public async Task<IViewComponentResult> InvokeAsync(ICollection<DirectoryDto> directories, bool isFirstCall, string order)
         {
             if (isFirstCall)
             {
-                var alldirectories = await _directoryService.GetAllNode();
+                var alldirectories = await _directoryService.GetAlltTreeNodes();
                 if (order == "ascending")
                     alldirectories = alldirectories.OrderBy(x => x.Name).ToList();
                 else if (order == "descending")
@@ -34,7 +35,6 @@ namespace TreeStructure.ViewComponents
             }
 
             var viewModle = new HomeTreeViewComponentModel { TreeModel = directories, Order = order };
-
             return await Task.FromResult(View(viewModle));
         }
     }

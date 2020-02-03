@@ -8,7 +8,6 @@ namespace TreeStructure.ViewModels
 {
     public class HomeTreeViewComponentModel
     {
-        public bool IsFirstCall { get; set; }
         public IEnumerable<DirectoryDto> TreeModel { get; set; }
         public string Order { get; set; }
     }

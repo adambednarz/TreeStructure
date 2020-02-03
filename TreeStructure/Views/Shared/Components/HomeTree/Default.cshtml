@@ -7,7 +7,9 @@
             <i class="fas fa-angle-down fas-title"></i>@dir.Name
         </button>
     </div>
-
+    <div class="form-group collapse ">
+        <input class="form-control" asp-for="Order"/>
+    </div>
     if (dir.DirectoryChildren != null)
     {
         <div class="collapse" id="DIR_@dir.Id">

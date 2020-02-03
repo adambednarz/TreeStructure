@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -55,6 +51,7 @@ namespace TreeStructure
 
             services.AddScoped<IDataInitializer, DataInitializer>();
             services.Configure<DataInitializerSettings>(Configuration.GetSection("DataInitializer"));
+            services.Configure<DataInitializerSettings>(Configuration.GetSection("AdminSettings"));
             services.AddSingleton(AutoMapperConfig.Initialize());
             services.AddScoped<IDirectoryRepository, DirectoryRepository>();
             services.AddScoped<IDirectoryService, DirectoryService>();

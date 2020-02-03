@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,11 +18,10 @@ namespace TreeStructure.Services
 
         public async Task SeedAsync()
         {
-            var directories = await _directoryService.GetAllNode();
+            var directories = await _directoryService.GetAlltTreeNodes();
             if (directories.Any())
             {
                 _logger.LogTrace("Data was already initialized.");
-
                 return;
             }
 
@@ -54,6 +51,5 @@ namespace TreeStructure.Services
 
             _logger.LogTrace("Data was initialized.");
         }
-
     }
 }

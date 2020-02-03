@@ -9,6 +9,6 @@ namespace TreeStructure.ViewModels
         public int? ParentId { get; set; } = 0;
         public IEnumerable<DirectoryDto> TreeModel { get; set; }
         public string Sign { get; set; } = "";
-        public bool IsFirstCall { get; set; } = false; 
+        public string Order { get; set; }
     }
 }

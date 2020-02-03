@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using TreeStructure.DTO;
+using TreeStructure.Extensionx;
 using TreeStructure.Services;
 using TreeStructure.ViewModels;
 
@@ -18,11 +15,13 @@ namespace TreeStructure.ViewComponents
             _directoryService = directoryService;
         }
 
+
         public async Task<IViewComponentResult> InvokeAsync( int id, string name, int? parentId, string order)
         {
-            var currentDirector = await _directoryService.GetDirectoryTreeDifference(id);
-            var directoryTree = _directoryService.GetDirectoryTree(currentDirector);
-
+            var parentDirectory = await _directoryService.GetAlltTreeNodes();
+            var childDirectory = await _directoryService.GetNodeOfFirstLevelChilrenAsync(id);
+            var directorDifference = await _directoryService.GetDirectoryTreeDifference(parentDirectory, childDirectory, id);
+            var directoryTree = _directoryService.GetDirectoryTree(directorDifference.OrderDirectoryBy(order));
 
             var viewModle = new EditItemViewComponentModel { TreeModel = directoryTree, Id = id,
                 ParentId = parentId, NewName = name, Order = order };
