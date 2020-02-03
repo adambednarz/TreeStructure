@@ -14,6 +14,6 @@ namespace TreeStructure.DTO
         public int Id { get; set; }
         public string Name { get; set; }
         public int? ParentId { get; set; }
-        public ICollection<DirectoryDto> DirectoryChildren { get; set; } = null;
+        public IEnumerable<DirectoryDto> DirectoryChildren { get; set; } = null;
     }
 }

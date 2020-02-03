@@ -11,17 +11,9 @@ namespace TreeStructure.ViewComponents
 {
     public class RemoveItemViewComponent : ViewComponent
     {
-        private readonly IDirectoryService _directoryService;
-
-        public RemoveItemViewComponent(IDirectoryService directoryService)
+        public async Task<IViewComponentResult> InvokeAsync(int id, string order )
         {
-            _directoryService = directoryService;
-        }
-
-        public async Task<IViewComponentResult> InvokeAsync(int id )
-        {
-
-            var viewModle = new RemoveItemViewComponentModel { Id = id, Confirmed = false };
+            var viewModle = new RemoveItemViewComponentModel { Id = id, Confirmed = false, Order = order };
             return await Task.FromResult(View(viewModle));
         }
     }

@@ -10,9 +10,10 @@
             <form asp-controller="Panel" asp-action="Index" method="get" class="form-group input-group-sm">
                 <label class="control-label">Sortowanie:  </label>
                 <select class="form-control" asp-for="Order">
-                    <option value="null"> ----</option>
-                    <option value="ascending"> Po nazwie A-Z</option>
-                    <option value="descending"> Po nazwie Z-A</option>
+                    <option value="null"> data utworzenia: od najstarszego</option>
+                    <option value="reverse"> data utworzenia: od najnowszego</option>
+                    <option value="ascending"> nazwa: A-Z</option>
+                    <option value="descending"> nazwa: Z-A</option>
                 </select>
                 <button type="submit" class="btn btn-light btn-sm">
                     <i class="fas fa-sync-alt"></i>
@@ -22,7 +23,7 @@
     </div>
 
     <div class="collapse card card-body" , id="ADD_NEW">
-        @await Component.InvokeAsync("AddNewItem", new { })
+        @await Component.InvokeAsync("AddNewItem", new { order = Model.Order })
     </div>
     <div class="card card-body">
         @await Component.InvokeAsync("AdminTree", new { isFirstCall = true, order = Model.Order })

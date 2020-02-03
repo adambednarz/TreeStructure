@@ -1,6 +1,6 @@
 ﻿@model AdminTreeViewComponentModel
 
-@foreach (var dir in Model.DirModel)
+@foreach (var dir in Model.TreeModel)
 {
     <form style="display:inline-block">
         <div class="list-group-item">
@@ -21,13 +21,13 @@
         </div>
     </form>
     <div class="collapse card card-body" , id="ADD_@dir.Id">
-        @await Component.InvokeAsync("AddNewItem", new { parentId = dir.Id })
+        @await Component.InvokeAsync("AddNewItem", new { parentId = dir.Id, order = Model.Order })
     </div>
     <div class="collapse card card-body" , id="EDIT_@dir.Id">
-        @await Component.InvokeAsync("EditItem", new { id = dir.Id, parentId = dir.ParentId, name = dir.Name})
+        @await Component.InvokeAsync("EditItem", new { id = dir.Id, parentId = dir.ParentId, name = dir.Name, order = Model.Order })
     </div>
     <div class="collapse card card-body" , id="REM_@dir.Id">
-        @await Component.InvokeAsync("RemoveItem", new { id = dir.Id })
+        @await Component.InvokeAsync("RemoveItem", new { id = dir.Id, order = Model.Order })
     </div>
 
 

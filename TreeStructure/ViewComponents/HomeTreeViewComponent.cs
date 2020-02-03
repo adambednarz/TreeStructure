@@ -22,16 +22,18 @@ namespace TreeStructure.ViewComponents
         {
             if (isFirstCall)
             {
-                var alldirectories = await _directoryService.BrowseAsync();
+                var alldirectories = await _directoryService.GetAllNode();
                 if (order == "ascending")
                     alldirectories = alldirectories.OrderBy(x => x.Name).ToList();
                 else if (order == "descending")
                     alldirectories = alldirectories.OrderByDescending(x => x.Name).ToList();
+                else if (order == "reverse")
+                    alldirectories = alldirectories.Reverse().ToList();
 
                 directories = _directoryService.GetDirectoryTree(alldirectories);
             }
 
-            var viewModle = new HomeTreeViewComponentModel { DirModel = directories };
+            var viewModle = new HomeTreeViewComponentModel { TreeModel = directories, Order = order };
 
             return await Task.FromResult(View(viewModle));
         }

@@ -2,25 +2,19 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TreeStructure.DTO;
-using TreeStructure.Services;
 using TreeStructure.ViewModels;
 
 namespace TreeStructure.ViewComponents
 {
     public class SelectTreeViewComponent : ViewComponent
-    {
-        private readonly IDirectoryService _directoryService;
-
-        public SelectTreeViewComponent(IDirectoryService directoryService)
+    {        
+        public async Task<IViewComponentResult> InvokeAsync(ICollection<DirectoryDto> directories, bool isFirstCall, string sign = null)
         {
-            _directoryService = directoryService;
-        }
-        
-        public async Task<IViewComponentResult> InvokeAsync(ICollection<DirectoryDto> directories)
-        {
-            //var dir = directories.ToList<DirectoryDto>().FirstOrDefault();
-            var viewModle = new SelectTreeViewComponentModel { SelectDirModel = directories};
+            if(isFirstCall)
+            sign = "";
 
+            sign = sign + " -";
+            var viewModle = new SelectTreeViewComponentModel { TreeModel = directories, Sign = sign };
             return await Task.FromResult(View(viewModle));
         }
     }

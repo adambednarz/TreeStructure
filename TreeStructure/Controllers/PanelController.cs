@@ -10,14 +10,6 @@ namespace TreeStructure.Controllers
     [Authorize(Roles = "Admin")]
     public class PanelController : Controller
     {
-        private readonly IDirectoryService _dirService;
-
-        public PanelController(IDirectoryService dirService)
-        {
-            _dirService = dirService;
-        }
-
-
         [HttpGet]
         public async Task<IActionResult> Index(string order)
         {

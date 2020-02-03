@@ -46,13 +46,13 @@ namespace TreeStructure.Services
             await _directoryRepository.AddAsync(directory);
         }
 
-        public async Task<ICollection<DirectoryDto>> BrowseAsync()
+        public async Task<IEnumerable<DirectoryDto>> GetAllNode()
         {
             var directories = await _directoryRepository.GetAllAsync();
             if (directories == null)
                 return null;
 
-            return _mapper.Map<ICollection<DirectoryDto>>(directories);
+            return _mapper.Map<IEnumerable<DirectoryDto>>(directories);
         }
 
         public async Task<DirectoryDto> GetAsync(int id)
@@ -73,7 +73,7 @@ namespace TreeStructure.Services
             return _mapper.Map<DirectoryDto>(directory);
         }
 
-        public async Task<ICollection<DirectoryDto>> GetNodeChilrenAsync(int? id)
+        public async Task<IEnumerable<DirectoryDto>> GetNodeChilrenAsync(int? id)
         {
             var directories = await _directoryRepository.GetChildrenAsync(id);
             if (directories == null)
@@ -82,15 +82,15 @@ namespace TreeStructure.Services
             return _mapper.Map<ICollection<DirectoryDto>>(directories);
         }
 
-        public List<DirectoryDto> GetDirectoryTree(ICollection<DirectoryDto> directoryTree, DirectoryDto currentDirectory = null)
+        public List<DirectoryDto> GetDirectoryTree(IEnumerable<DirectoryDto> directoryTree, DirectoryDto currentDirectory = null)
         {
             if (currentDirectory != null)
             {
                 foreach (var item in directoryTree)
                 {
-                    item.DirectoryChildren = GetChildernRecursive(directoryTree, currentDirectory);
+                    item.DirectoryChildren = GetChildernRecursive(directoryTree, item);
                 }
-                //currentDirectory.DirectoryChildren = GetChildernRecursive(directoryTree, currentDirectory);
+
                 return directoryTree.Where(b => b.ParentId == currentDirectory.Id).ToList();
             }
             else
@@ -104,7 +104,7 @@ namespace TreeStructure.Services
             }
         }
 
-        private ICollection<DirectoryDto> GetChildernRecursive(ICollection<DirectoryDto> allDirectories, DirectoryDto directory)
+        private IEnumerable<DirectoryDto> GetChildernRecursive(IEnumerable<DirectoryDto> allDirectories, DirectoryDto directory)
         {
             if (allDirectories.All(b => b.ParentId != directory.Id)) return null;
 
@@ -132,7 +132,7 @@ namespace TreeStructure.Services
             await RemoveDirectoryAsync(id);
         }
 
-        private async Task RemoveChildrenRecursive(ICollection<DirectoryDto> collection)
+        private async Task RemoveChildrenRecursive(IEnumerable<DirectoryDto> collection)
         {
             if (collection != null)
             {
@@ -158,6 +158,35 @@ namespace TreeStructure.Services
             directory.SetName(name);
             directory.SetParent(parentId);
             await _directoryRepository.UpdateAsync(directory);
+        }
+
+
+        public async Task<IEnumerable<DirectoryDto>> GetDirectoryTreeDifference(int id)
+        {
+            var allDirectories = await GetAllNode();
+            var children = await GetNodeChilrenAsync(id);
+            if (children != null)
+            {
+                foreach (var item in children.ToList())
+                {
+                    allDirectories = await SubtractChildrenRecursive(allDirectories, children);
+                }
+            }
+            return allDirectories.Where(x => x.Id != id);
+        }
+
+        private async Task<IEnumerable<DirectoryDto>> SubtractChildrenRecursive(IEnumerable<DirectoryDto> bascollection, IEnumerable<DirectoryDto> collection)
+        {
+            if (collection != null)
+            {
+                foreach (var item in collection.ToList())
+                {
+                    var children = await GetNodeChilrenAsync(item.Id);
+                    await SubtractChildrenRecursive(bascollection, children);
+                    bascollection = bascollection.Where(x => x.Id != item.Id);
+                }
+            }
+            return bascollection;
         }
     }
 }

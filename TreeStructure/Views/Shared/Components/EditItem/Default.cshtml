@@ -9,23 +9,18 @@
         <div class="form-group">
             <label class="control-label">Przenieś do katalogu:</label>
             <select class="form-control" asp-for="ParentId">
-
-                <option value="ParetnId"> -----</option>
-                @foreach (var item in Model.EditDirModel)
+                <option value="@Model.ParentId"> ---- </option>
+                @foreach (var item in Model.TreeModel)
                 {
-                    <option value="@item.Id"> @item.Name</option>
+                    <option value="@item.Id">@item.Name</option>
                     if (item.DirectoryChildren != null)
                     {
-                        @await Component.InvokeAsync("SelectTree", new { directories = item.DirectoryChildren })
+                        @await Component.InvokeAsync("SelectTree", new { directories = item.DirectoryChildren, isFirstCall = true  })
                     }
                 }
             </select>
-            @*<div class="form-group collapse ">
-                    <input class="form-control" asp-for="ParentId" />
-                </div>*@
             <button type="submit" class="btn btn-sm btn-primary confirm">Zatwierdź</button>
             <button type="button" class="btn btn-sm btn-secondary confirm" data-toggle="collapse" data-target="#EDIT_@Model.Id">Anuluj</button>
-
         </div>
     </div>
 </form>

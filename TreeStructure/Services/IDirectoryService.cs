@@ -9,16 +9,14 @@ namespace TreeStructure.Services
 {
     public interface IDirectoryService
     {
-        //Task CreateAsync(string name, string parentName);
         Task CreateAsync(string name, int? parentId = null, string parentName = null);
-        //Task CreateAsync(string name, int? parentId);
-        //Task CreateAsync(int id, string name, int? parentId);
         Task<DirectoryDto> GetAsync(int id);
         Task<DirectoryDto> GetAsync(string name);
-        Task<ICollection<DirectoryDto>> BrowseAsync();
-        Task<ICollection<DirectoryDto>> GetNodeChilrenAsync(int? id);
+        Task<IEnumerable<DirectoryDto>> GetAllNode();
+        Task<IEnumerable<DirectoryDto>> GetNodeChilrenAsync(int? id);
+        List<DirectoryDto> GetDirectoryTree(IEnumerable<DirectoryDto> directoryTree, DirectoryDto currentDirectory = null);
+        Task<IEnumerable<DirectoryDto>> GetDirectoryTreeDifference(int id);
         Task RemoveAsync(int id);
         Task UpdateAsync(int id, string name, int? parentId);
-        List<DirectoryDto> GetDirectoryTree(ICollection<DirectoryDto> directoryTree, DirectoryDto currentDirectory = null);
     }
 }

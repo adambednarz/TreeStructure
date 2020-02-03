@@ -14,10 +14,12 @@
             <form asp-controller="Home" asp-action="Index" method="get" class="form-group input-group-sm">
                 <label class="control-label">Sortowanie:  </label>
                 <select class="form-control" asp-for="Order">
-                    <option value=""> ----</option>
-                    <option value="ascending"> Po nazwie A-Z</option>
-                    <option value="descending"> Po nazwie Z-A</option>
+                    <option value="null"> data utworzenia: od najstarszego</option>
+                    <option value="reverse"> data utworzenia: od najnowszego</option>
+                    <option value="ascending"> nazwa: A-Z</option>
+                    <option value="descending"> nazwa: Z-A</option>
                 </select>
+
                 <button type="submit" class="btn btn-light btn-sm">
                     <i class="fas fa-sync-alt"></i>
                 </button>

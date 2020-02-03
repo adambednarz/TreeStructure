@@ -20,7 +20,7 @@ namespace TreeStructure.Services
 
         public async Task SeedAsync()
         {
-            var directories = await _directoryService.BrowseAsync();
+            var directories = await _directoryService.GetAllNode();
             if (directories.Any())
             {
                 _logger.LogTrace("Data was already initialized.");

@@ -9,5 +9,6 @@ namespace TreeStructure.ViewModels
     {
         public string Name { get; set; } = null;
         public int? ParentId { get; set; } = null;
+        public string Order { get; set; }
     }
 }

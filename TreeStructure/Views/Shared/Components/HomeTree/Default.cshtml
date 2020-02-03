@@ -1,6 +1,6 @@
 ﻿@model HomeTreeViewComponentModel
 
-@foreach (var dir in Model.DirModel)
+@foreach (var dir in Model.TreeModel)
 {
     <div class="list-group-item">
         <button class="btn " type="button" data-toggle="collapse" data-target="#DIR_@dir.Id">
@@ -12,7 +12,7 @@
     {
         <div class="collapse" id="DIR_@dir.Id">
             <div class="card card-body">
-                @await Component.InvokeAsync("HomeTree", new { directories = dir.DirectoryChildren, isFirstCall = false })
+                @await Component.InvokeAsync("HomeTree", new { directories = dir.DirectoryChildren, isFirstCall = false, order = Model.Order })
             </div>
         </div>
     }
