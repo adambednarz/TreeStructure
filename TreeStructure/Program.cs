@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using TreeStructure.Data;
 using TreeStructure.Settings;
 
@@ -26,7 +27,7 @@ namespace TreeStructure
                 var ctx = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
                 var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-                var userSettings = scope.ServiceProvider.GetRequiredService<AdminSettings>();
+                var userSettings = scope.ServiceProvider.GetRequiredService<IOptions<AdminSettings>>();
                 ctx.Database.EnsureCreated();
 
                 var adminRole = new IdentityRole("Admin");
@@ -38,10 +39,10 @@ namespace TreeStructure
                 {
                     var adminUser = new IdentityUser
                     {
-                        UserName = userSettings.Username,
-                        Email = userSettings.Email
+                        UserName = userSettings.Value.Username,
+                        Email = userSettings.Value.Email
                     };
-                    var result = userMgr.CreateAsync(adminUser, userSettings.Password).GetAwaiter().GetResult();
+                    var result = userMgr.CreateAsync(adminUser, userSettings.Value.Password).GetAwaiter().GetResult();
                     userMgr.AddToRoleAsync(adminUser, adminRole.Name).GetAwaiter().GetResult();
                 }
             }

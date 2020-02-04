@@ -51,7 +51,7 @@ namespace TreeStructure
 
             services.AddScoped<IDataInitializer, DataInitializer>();
             services.Configure<DataInitializerSettings>(Configuration.GetSection("DataInitializer"));
-            services.Configure<DataInitializerSettings>(Configuration.GetSection("AdminSettings"));
+            services.Configure<AdminSettings>(Configuration.GetSection("AdminSettings"));
             services.AddSingleton(AutoMapperConfig.Initialize());
             services.AddScoped<IDirectoryRepository, DirectoryRepository>();
             services.AddScoped<IDirectoryService, DirectoryService>();
