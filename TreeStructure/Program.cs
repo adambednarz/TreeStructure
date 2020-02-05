@@ -23,27 +23,29 @@ namespace TreeStructure
 
             try
             {
-                var scope = host.Services.CreateScope();
-                var ctx = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-                var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-                var userSettings = scope.ServiceProvider.GetRequiredService<IOptions<AdminSettings>>();
-                ctx.Database.EnsureCreated();
+                using (var scope = host.Services.CreateScope())
+                {
+                    var ctx = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                    var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                    var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                    var userSettings = scope.ServiceProvider.GetRequiredService<IOptions<AdminSettings>>();
+                    ctx.Database.EnsureCreated();
 
-                var adminRole = new IdentityRole("Admin");
-                if (!ctx.Roles.Any())
-                {
-                    roleMgr.CreateAsync(adminRole).GetAwaiter().GetResult();
-                }
-                if (!ctx.Users.Any())
-                {
-                    var adminUser = new IdentityUser
+                    var adminRole = new IdentityRole("Admin");
+                    if (!ctx.Roles.Any())
                     {
-                        UserName = userSettings.Value.Username,
-                        Email = userSettings.Value.Email
-                    };
-                    var result = userMgr.CreateAsync(adminUser, userSettings.Value.Password).GetAwaiter().GetResult();
-                    userMgr.AddToRoleAsync(adminUser, adminRole.Name).GetAwaiter().GetResult();
+                        roleMgr.CreateAsync(adminRole).GetAwaiter().GetResult();
+                    }
+                    if (!ctx.Users.Any())
+                    {
+                        var adminUser = new IdentityUser
+                        {
+                            UserName = userSettings.Value.Username,
+                            Email = userSettings.Value.Email
+                        };
+                        var result = userMgr.CreateAsync(adminUser, userSettings.Value.Password).GetAwaiter().GetResult();
+                        userMgr.AddToRoleAsync(adminUser, adminRole.Name).GetAwaiter().GetResult();
+                    }
                 }
             }
             catch (Exception e)
